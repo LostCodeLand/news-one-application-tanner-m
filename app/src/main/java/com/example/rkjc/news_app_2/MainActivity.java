@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,25 +18,45 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity ***myCode***";
     private EditText mSearchBoxEditText;
     private ProgressBar mProgressBar;
     private TextView mTextView_1;
+    private RecyclerView mRecycleView;
+    private List<FeedItem> feedsList;
+    private RcRecyclerViewAdapter rcViewAdapter;
 
     //TODO continue with recyclerView example
     // https://stackoverflow.com/questions/40584424/simple-android-recyclerview-example#40584425
+    // https://stacktips.com/tutorials/android/android-recyclerview-example
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "*** start onCreate method ***");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mSearchBoxEditText = (EditText) findViewById(R.id.search_box_1);
         mProgressBar = (ProgressBar) findViewById(R.id.progressB);
         mTextView_1 = (TextView) findViewById(R.id.textview1);
-        Log.d(TAG, "hey there");
+
+        // attach to the recyclerView item in the activity_main.xml
+        mRecycleView = (RecyclerView) findViewById(R.id.rv_listItems);
+        LinearLayoutManager cyclayoutManager = new LinearLayoutManager(this);
+        mRecycleView.setLayoutManager(cyclayoutManager);
+
+        // for testing purposes
+        feedsList = new ArrayList<FeedItem>();
+
+        feedsList.add(new FeedItem("a-1", "a-2", "a-3"));
+        feedsList.add(new FeedItem("b-1", "b-2", "b-3"));
+        feedsList.add(new FeedItem("c-1", "c-2", "c-3"));
+
+        Log.d(TAG, "*** finished onCreate method ***");
     }
 
     @Override
@@ -68,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
             Context context = MainActivity.this;
             String textToShow = "Toast is made";
             Toast.makeText(context, textToShow, Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        if(itemThatWasClickedId == R.id.push_button){
+            Context context = MainActivity.this;
+            rcViewAdapter = new RcRecyclerViewAdapter(this, feedsList);
+            mRecycleView.setAdapter(rcViewAdapter);
             return true;
         }
 
