@@ -18,7 +18,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
+//import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar mProgressBar;
     private TextView mTextView_1;
     private RecyclerView mRecycleView;
-    private List<FeedItem> feedsList;
+    private ArrayList<FeedItem> feedsList;
     private RcRecyclerViewAdapter rcViewAdapter;
 
     //TODO continue with recyclerView example
@@ -128,13 +128,8 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG + "onPostExecute", str);
             ArrayList<GithubItem> itemList = new ArrayList<GithubItem>();
             boolean success = JsonUtils.parseGithub(itemList, str);
-//            if(success){
-//                mAdapter = new NewsItemRecyclerViewAdapter();
-//                mAdapter.setNewsItemList(itemList);
-//                mResultsRecyclerView.setAdapter(mAdapter);
-//                System.out.println(s);
-//                System.out.println("number news items: " + itemList.size());
-//            }
+
+
             mTextView_1.setText(itemList.get(2).full_name);
         }
     }

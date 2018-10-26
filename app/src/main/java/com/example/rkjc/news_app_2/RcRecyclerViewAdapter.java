@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,7 +21,7 @@ public class RcRecyclerViewAdapter extends RecyclerView.Adapter<RcRecyclerViewAd
     private Context mContext;
 
     // TODO replace this with a constructor
-    public RcRecyclerViewAdapter(Context context, List<FeedItem> feedItemList) {
+    public RcRecyclerViewAdapter(Context context, ArrayList<FeedItem> feedItemList) {
         this.mInflater = LayoutInflater.from(context);
         this.feedItemList = feedItemList;
     }
