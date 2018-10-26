@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity ***myCode***";
@@ -96,7 +97,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String str){
             Log.d(TAG + "onPostExecute", str);
-            mTextView_1.setText(str);
+            ArrayList<GithubItem> itemList = new ArrayList<GithubItem>();
+            boolean success = JsonUtils.parseGithub(itemList, str);
+//            if(success){
+//                mAdapter = new NewsItemRecyclerViewAdapter();
+//                mAdapter.setNewsItemList(itemList);
+//                mResultsRecyclerView.setAdapter(mAdapter);
+//                System.out.println(s);
+//                System.out.println("number news items: " + itemList.size());
+//            }
+            mTextView_1.setText(itemList.get(2).full_name);
         }
     }
 }
