@@ -17,7 +17,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-//import java.util.List;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText mSearchBoxEditText;
     private ProgressBar mProgressBar;
     private TextView mTextView_1;
+
     private RecyclerView mResultsRecyclerView;
-    private ArrayList<FeedItem> feedsList;
     private NewsRecyclerViewAdapter mNewsViewAdapter;
 
 
@@ -46,18 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
         // attach to the recyclerView item in the activity_main.xml
         mResultsRecyclerView = (RecyclerView) findViewById(R.id.rv_listItems);
-        LinearLayoutManager recyclerManager = new LinearLayoutManager(this);
-        mResultsRecyclerView.setLayoutManager(recyclerManager);
+        mResultsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-
-
-//        // for testing purposes
-//        feedsList = new ArrayList<FeedItem>();
-//
-//        feedsList.add(new FeedItem("a-1", "a-2", "a-3"));
-//        feedsList.add(new FeedItem("b-1", "b-2", "b-3"));
-//        feedsList.add(new FeedItem("c-1", "c-2", "c-3"));
 
         Log.d(TAG, "*** finished onCreate method ***");
     }
@@ -68,21 +58,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-//    private URL makeGithubSearchQuery() {
-//        String githubQuery = mSearchBoxEditText.getText().toString();
-//        URL githubSearchUrl = NetworkUtils.buildUrl(githubQuery);
-//        String urlString = githubSearchUrl.toString();
-//        Log.d(TAG + "in makeGithubSearchQuery", urlString);
-//        return githubSearchUrl;
-//    }
-//
-//    private URL makeNewsSearchQuery() {
-//        String newsQuery = mSearchBoxEditText.getText().toString();
-//        URL githubSearchUrl = NetworkUtils.buildUrl(newsQuery);
-//        String urlString = githubSearchUrl.toString();
-//        Log.d(TAG + "in makeGithubSearchQuery", urlString);
-//        return githubSearchUrl;
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -102,10 +77,6 @@ public class MainActivity extends AppCompatActivity {
             Context context = MainActivity.this;
             String textToShow = "Toast is made";
             Toast.makeText(context, textToShow, Toast.LENGTH_SHORT).show();
-            return true;
-        }
-
-        if(itemThatWasClickedId == R.id.push_button){
             return true;
         }
 
@@ -144,7 +115,9 @@ public class MainActivity extends AppCompatActivity {
 
             mNewsViewAdapter = new NewsRecyclerViewAdapter();
             mNewsViewAdapter.SetItemArrayList(newsItemList);
+
             mResultsRecyclerView.setAdapter(mNewsViewAdapter);
+
         }
     }
 }
