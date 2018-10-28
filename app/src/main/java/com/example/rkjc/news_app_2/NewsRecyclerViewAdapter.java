@@ -17,6 +17,7 @@ public class NewsRecyclerViewAdapter  extends RecyclerView.Adapter<NewsRecyclerV
     private static final String TAG = "### NewsRecyclerViewAdapter ### ";
     // TODO add onClickListener
     // https://dzone.com/articles/click-listener-for-recyclerview-adapter
+    // https://stackoverflow.com/questions/33845846/why-is-adding-an-onclicklistener-inside-onbindviewholder-of-a-recyclerview-adapt
 
     private ArrayList<NewsItem> newsItemList;
     private Context mContext;
@@ -36,8 +37,15 @@ public class NewsRecyclerViewAdapter  extends RecyclerView.Adapter<NewsRecyclerV
         Context context = viewGroup.getContext();
         LayoutInflater mInflater = LayoutInflater.from(context);
         View view = mInflater.inflate(R.layout.news_item, viewGroup, false);
-        NewsViewHolder viewHolder = new NewsViewHolder(view);
+        final NewsViewHolder viewHolder = new NewsViewHolder(view);
         view.setOnClickListener(viewHolder);
+//        viewHolder.itemView.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view) {
+//                Log.d(TAG, "position = " + viewHolder.getAdapterPosition());
+//            }
+//        });
         return viewHolder;
     }
 
@@ -75,7 +83,7 @@ public class NewsRecyclerViewAdapter  extends RecyclerView.Adapter<NewsRecyclerV
 
         @Override
         public void onClick(View view) {
-            view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mUrlString)));
+           view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(mUrlString)));
         }
     }
 
