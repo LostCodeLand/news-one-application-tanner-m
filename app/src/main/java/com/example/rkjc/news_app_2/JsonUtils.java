@@ -1,25 +1,28 @@
 package com.example.rkjc.news_app_2;
 
+import android.util.Log;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 public class JsonUtils {
+    private static final String TAG = "### JsonUtils ###";
 
-    public static boolean parseGithub(ArrayList<GithubItem> githubItemList, String jsonString){
+    public static boolean parseNews(ArrayList<NewsItem> newsItemList, String jsonString){
 
         try {
             JSONObject topLevelObject = new JSONObject(jsonString);
-            JSONArray itemsArray = topLevelObject.getJSONArray("items");
-            //System.out.println("JsonArray size: " + articleArray.length());
+            JSONArray itemsArray = topLevelObject.getJSONArray("articles");
+
+            //Log.d(TAG + " parseNews", itemsArray.toString());
+
             for(int i = 0; i < itemsArray.length(); i++){
-                //System.out.println("looping");
                 JSONObject itemObject = itemsArray.getJSONObject(i);
-                String id = itemObject.getString("id");
-                String name = itemObject.getString("name");
-                String full_name = itemObject.getString("full_name");
-                githubItemList.add(new GithubItem(id, name, full_name));
+                String title = itemObject.getString("title");
+                String description = itemObject.getString("description");
+                String time = itemObject.getString("publishedAt");
+                newsItemList.add(new NewsItem(title, description, time));
             }
 
             return true;
@@ -29,6 +32,7 @@ public class JsonUtils {
         }
 
         return false;
-
     }
 }
+
+

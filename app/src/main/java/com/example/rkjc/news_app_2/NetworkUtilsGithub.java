@@ -9,21 +9,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-public class NetworkUtils {
-    final static String BASE_URL ="https://newsapi.org/v1/articles";
-    final static String PARAM_SOURCE = "";
-    final static String PARAM_SEARCH = "q";
-    public static final String PARAM_SORT_BY = "sortBy";
-    final static String PARAM_API_KEY = "apiKey";
-    final static String API_KEY = "027ae063a4b145d9a7dbf456b328d889";
+public class NetworkUtilsGithub {
+    final static String GITHUB_BASE_URL ="https://api.github.com/search/repositories";
+    final static String PARAM_QUERY = "q";
+    final static String PARAM_SORT = "sort";
+    final static String sortBy = "stars";
 
 
     public static URL buildUrl(String searchQuery) {
-        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                .appendQueryParameter(PARAM_SOURCE, "the-next-web")
-                .appendQueryParameter(PARAM_SEARCH, searchQuery)
-                .appendQueryParameter(PARAM_SORT_BY, "latest")
-                .appendQueryParameter(PARAM_API_KEY, API_KEY)
+        Uri builtUri = Uri.parse(GITHUB_BASE_URL).buildUpon()
+                .appendQueryParameter(PARAM_QUERY, searchQuery)
+                .appendQueryParameter(PARAM_SORT, sortBy)
                 .build();
 
         URL url = null;
@@ -61,4 +57,5 @@ public class NetworkUtils {
             urlConnection.disconnect();
         }
     }
+
 }

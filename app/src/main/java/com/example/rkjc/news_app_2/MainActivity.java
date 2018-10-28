@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,13 +21,14 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "MainActivity ***myCode***";
+    private static final String TAG = "### MainActivity ### ";
     private EditText mSearchBoxEditText;
     private ProgressBar mProgressBar;
     private TextView mTextView_1;
-    private RecyclerView mRecycleView;
+    private RecyclerView mResultsRecyclerView;
     private ArrayList<FeedItem> feedsList;
-    private RcRecyclerViewAdapter rcViewAdapter;
+    private NewsRecyclerViewAdapter mNewsViewAdapter;
+
 
     //TODO continue with recyclerView example
     // https://stackoverflow.com/questions/40584424/simple-android-recyclerview-example#40584425
@@ -45,16 +45,19 @@ public class MainActivity extends AppCompatActivity {
         mTextView_1 = (TextView) findViewById(R.id.textview1);
 
         // attach to the recyclerView item in the activity_main.xml
-        mRecycleView = (RecyclerView) findViewById(R.id.rv_listItems);
-        LinearLayoutManager cyclayoutManager = new LinearLayoutManager(this);
-        mRecycleView.setLayoutManager(cyclayoutManager);
+        mResultsRecyclerView = (RecyclerView) findViewById(R.id.rv_listItems);
+        LinearLayoutManager recyclerManager = new LinearLayoutManager(this);
+        mResultsRecyclerView.setLayoutManager(recyclerManager);
 
-        // for testing purposes
-        feedsList = new ArrayList<FeedItem>();
 
-        feedsList.add(new FeedItem("a-1", "a-2", "a-3"));
-        feedsList.add(new FeedItem("b-1", "b-2", "b-3"));
-        feedsList.add(new FeedItem("c-1", "c-2", "c-3"));
+
+
+//        // for testing purposes
+//        feedsList = new ArrayList<FeedItem>();
+//
+//        feedsList.add(new FeedItem("a-1", "a-2", "a-3"));
+//        feedsList.add(new FeedItem("b-1", "b-2", "b-3"));
+//        feedsList.add(new FeedItem("c-1", "c-2", "c-3"));
 
         Log.d(TAG, "*** finished onCreate method ***");
     }
@@ -65,13 +68,21 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private URL makeGithubSearchQuery() {
-        String githubQuery = mSearchBoxEditText.getText().toString();
-        URL githubSearchUrl = NetworkUtils.buildUrl(githubQuery);
-        String urlString = githubSearchUrl.toString();
-        Log.d(TAG + "in makeGithubSearchQuery", urlString);
-        return githubSearchUrl;
-    }
+//    private URL makeGithubSearchQuery() {
+//        String githubQuery = mSearchBoxEditText.getText().toString();
+//        URL githubSearchUrl = NetworkUtils.buildUrl(githubQuery);
+//        String urlString = githubSearchUrl.toString();
+//        Log.d(TAG + "in makeGithubSearchQuery", urlString);
+//        return githubSearchUrl;
+//    }
+//
+//    private URL makeNewsSearchQuery() {
+//        String newsQuery = mSearchBoxEditText.getText().toString();
+//        URL githubSearchUrl = NetworkUtils.buildUrl(newsQuery);
+//        String urlString = githubSearchUrl.toString();
+//        Log.d(TAG + "in makeGithubSearchQuery", urlString);
+//        return githubSearchUrl;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -79,9 +90,10 @@ public class MainActivity extends AppCompatActivity {
 
         if(itemThatWasClickedId == R.id.action_search){
             Context context = MainActivity.this;
-            URL url = makeGithubSearchQuery();
-            GithubQueryTask task = new GithubQueryTask();
-            task.execute(url);
+            String newsQuery = mSearchBoxEditText.getText().toString();
+            NewsQueryTask task = new NewsQueryTask();
+
+            task.execute(newsQuery);
 
             return true;
         }
@@ -94,9 +106,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if(itemThatWasClickedId == R.id.push_button){
-            Context context = MainActivity.this;
-            rcViewAdapter = new RcRecyclerViewAdapter(this, feedsList);
-            mRecycleView.setAdapter(rcViewAdapter);
             return true;
         }
 
@@ -104,33 +113,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public class GithubQueryTask extends AsyncTask <URL, Void, String> {
+    public class NewsQueryTask extends AsyncTask <String, Void, String> {
         @Override
         protected void onPreExecute(){
             Log.d(TAG + "onPreExecute", "*** should happen first ***");
         }
 
         @Override
-        protected String doInBackground(URL... params){
+        protected String doInBackground(String... params){
             Log.d(TAG + " doInBackground", "calling doInBackground");
 
-            String githubSearchResults = "";
+            URL url = NetworkUtils.buildUrl(params[0]);
+
+            String newsSearchResults = "";
             try {
-                githubSearchResults = NetworkUtils.getResponseFromHttpUrl(params[0]);
+                newsSearchResults = NetworkUtils.getResponseFromHttpUrl(url);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return githubSearchResults;
+
+            return newsSearchResults;
         }
 
         @Override
-        protected void onPostExecute(String str){
-            Log.d(TAG + "onPostExecute", str);
-            ArrayList<GithubItem> itemList = new ArrayList<GithubItem>();
-            boolean success = JsonUtils.parseGithub(itemList, str);
+        protected void onPostExecute(String newsSearchResults){
+            Log.d(TAG + "*** onPostExecute ****", newsSearchResults);
+            //mTextView_1.setText(newsSearchResults);
+            ArrayList<NewsItem> newsItemList = new ArrayList<NewsItem>();
+            JsonUtils.parseNews(newsItemList, newsSearchResults);
 
-
-            mTextView_1.setText(itemList.get(2).full_name);
+            mNewsViewAdapter = new NewsRecyclerViewAdapter();
+            mNewsViewAdapter.SetItemArrayList(newsItemList);
+            mResultsRecyclerView.setAdapter(mNewsViewAdapter);
         }
     }
 }
