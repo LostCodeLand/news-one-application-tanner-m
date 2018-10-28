@@ -21,6 +21,7 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
+        https://newsapi.org/v1/articles
         assertEquals("com.example.rkjc.news_app_2", appContext.getPackageName());
     }
 }

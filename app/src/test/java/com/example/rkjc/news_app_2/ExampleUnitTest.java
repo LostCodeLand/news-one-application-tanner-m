@@ -2,6 +2,8 @@ package com.example.rkjc.news_app_2;
 
 import org.junit.Test;
 
+import java.net.URL;
+
 import static org.junit.Assert.*;
 
 /**
@@ -13,5 +15,13 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
+    }
+
+    @Test
+    public void checkUrlBuilder() throws Exception {
+        NetworkUtils nwu = new NetworkUtils();
+        URL url = nwu.buildUrl("earth");
+
+        assertEquals(4, url);
     }
 }

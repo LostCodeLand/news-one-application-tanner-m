@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         int itemThatWasClickedId = item.getItemId();
+        Log.d(TAG, "*** onOptionsItemSelected ***");
 
         if(itemThatWasClickedId == R.id.action_search){
             Context context = MainActivity.this;
