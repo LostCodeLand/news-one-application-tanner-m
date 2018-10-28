@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -113,8 +114,8 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<NewsItem> newsItemList = new ArrayList<NewsItem>();
             JsonUtils.parseNews(newsItemList, newsSearchResults);
 
-            mNewsViewAdapter = new NewsRecyclerViewAdapter();
-            mNewsViewAdapter.SetItemArrayList(newsItemList);
+            mNewsViewAdapter = new NewsRecyclerViewAdapter(MainActivity.this, newsItemList);
+            //mNewsViewAdapter.SetItemArrayList(newsItemList);
 
             mResultsRecyclerView.setAdapter(mNewsViewAdapter);
 

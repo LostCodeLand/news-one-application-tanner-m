@@ -4,12 +4,14 @@ public class NewsItem {
     private String title;
     private String description;
     private String time;
+    private String url;
 
     //title, description, time
-    NewsItem(String title, String description, String time){
+    NewsItem(String title, String description, String time, String url){
         this.title = title;
         this.description = description;
         this.time = time;
+        this.url = url;
     }
 
     public String getTitle() {
@@ -22,5 +24,9 @@ public class NewsItem {
 
     public String getTime() {
         return time;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

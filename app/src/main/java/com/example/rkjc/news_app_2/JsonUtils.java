@@ -15,14 +15,15 @@ public class JsonUtils {
             JSONObject topLevelObject = new JSONObject(jsonString);
             JSONArray itemsArray = topLevelObject.getJSONArray("articles");
 
-            //Log.d(TAG + " parseNews", itemsArray.toString());
+            Log.d(TAG + " parseNews", itemsArray.toString());
 
             for(int i = 0; i < itemsArray.length(); i++){
                 JSONObject itemObject = itemsArray.getJSONObject(i);
                 String title = itemObject.getString("title");
                 String description = itemObject.getString("description");
                 String time = itemObject.getString("publishedAt");
-                newsItemList.add(new NewsItem(title, description, time));
+                String url = itemObject.getString("url");
+                newsItemList.add(new NewsItem(title, description, time, url));
             }
 
             return true;
