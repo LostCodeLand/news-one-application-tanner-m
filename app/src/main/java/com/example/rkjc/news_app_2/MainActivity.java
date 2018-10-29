@@ -22,35 +22,16 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
-    private static final String TAG = "### MainActivity ### ";
-    private EditText mSearchBoxEditText;
-    private ProgressBar mProgressBar;
-    private TextView mTextView_1;
-
+    private static final String TAG = "MainActivity";
     private RecyclerView mResultsRecyclerView;
     private NewsRecyclerViewAdapter mNewsViewAdapter;
 
-
-    //TODO continue with recyclerView example
-    // https://stackoverflow.com/questions/40584424/simple-android-recyclerview-example#40584425
-    // https://stacktips.com/tutorials/android/android-recyclerview-example
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "*** start onCreate method ***");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mSearchBoxEditText = (EditText) findViewById(R.id.search_box_1);
-        mProgressBar = (ProgressBar) findViewById(R.id.progressB);
-        mTextView_1 = (TextView) findViewById(R.id.textview1);
-
-        // attach to the recyclerView item in the activity_main.xml
         mResultsRecyclerView = (RecyclerView) findViewById(R.id.rv_listItems);
         mResultsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
-        Log.d(TAG, "*** finished onCreate method ***");
     }
 
     @Override
@@ -66,18 +47,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(itemThatWasClickedId == R.id.action_search){
             Context context = MainActivity.this;
-            String newsQuery = mSearchBoxEditText.getText().toString();
             NewsQueryTask task = new NewsQueryTask();
-
-            task.execute(newsQuery);
-
-            return true;
-        }
-
-        if(itemThatWasClickedId == R.id.make_toast){
-            Context context = MainActivity.this;
-            String textToShow = "Toast is made";
-            Toast.makeText(context, textToShow, Toast.LENGTH_SHORT).show();
+            task.execute();
             return true;
         }
 
@@ -85,18 +56,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public class NewsQueryTask extends AsyncTask <String, Void, String> {
+    public class NewsQueryTask extends AsyncTask <Void, Void, String> {
         @Override
-        protected void onPreExecute(){
-            Log.d(TAG + "onPreExecute", "*** should happen first ***");
-        }
-
-        @Override
-        protected String doInBackground(String... params){
+        protected String doInBackground(Void... voids) {
             Log.d(TAG + " doInBackground", "calling doInBackground");
-
-            URL url = NetworkUtils.buildUrl(params[0]);
-
+            URL url = NetworkUtils.buildUrl();
             String newsSearchResults = "";
             try {
                 newsSearchResults = NetworkUtils.getResponseFromHttpUrl(url);
@@ -110,15 +74,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String newsSearchResults){
             Log.d(TAG + "*** onPostExecute ****", newsSearchResults);
-            //mTextView_1.setText(newsSearchResults);
             ArrayList<NewsItem> newsItemList = new ArrayList<NewsItem>();
             JsonUtils.parseNews(newsItemList, newsSearchResults);
-
             mNewsViewAdapter = new NewsRecyclerViewAdapter(MainActivity.this, newsItemList);
-            //mNewsViewAdapter.SetItemArrayList(newsItemList);
-
             mResultsRecyclerView.setAdapter(mNewsViewAdapter);
-
         }
     }
 }

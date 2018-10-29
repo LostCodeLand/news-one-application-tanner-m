@@ -12,16 +12,14 @@ import java.util.Scanner;
 public class NetworkUtils {
     final static String BASE_URL ="https://newsapi.org/v1/articles";
     final static String PARAM_SOURCE = "";
-    final static String PARAM_SEARCH = "q";
     public static final String PARAM_SORT_BY = "sortBy";
     final static String PARAM_API_KEY = "apiKey";
     final static String API_KEY = "027ae063a4b145d9a7dbf456b328d889";
 
 
-    public static URL buildUrl(String searchQuery) {
+    public static URL buildUrl() {
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter(PARAM_SOURCE, "the-next-web")
-                .appendQueryParameter(PARAM_SEARCH, searchQuery)
                 .appendQueryParameter(PARAM_SORT_BY, "latest")
                 .appendQueryParameter(PARAM_API_KEY, API_KEY)
                 .build();
