@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class JsonUtils {
     private static final String TAG = "### JsonUtils ###";
 
-    public static boolean parseNews(ArrayList<NewsItem> newsItemList, String jsonString){
-
+    public static ArrayList<NewsItem> parseNews(String jsonString){
+        ArrayList<NewsItem> newsItemList = new ArrayList<>();
         try {
             JSONObject topLevelObject = new JSONObject(jsonString);
             JSONArray itemsArray = topLevelObject.getJSONArray("articles");
@@ -26,13 +26,12 @@ public class JsonUtils {
                 newsItemList.add(new NewsItem(title, description, time, url));
             }
 
-            return true;
         }
         catch(org.json.JSONException e){
             e.printStackTrace();
         }
 
-        return false;
+        return newsItemList;
     }
 }
 

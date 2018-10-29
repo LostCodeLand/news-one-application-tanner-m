@@ -74,9 +74,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String newsSearchResults){
             Log.d(TAG + "*** onPostExecute ****", newsSearchResults);
-            ArrayList<NewsItem> newsItemList = new ArrayList<NewsItem>();
-            JsonUtils.parseNews(newsItemList, newsSearchResults);
-            mNewsViewAdapter = new NewsRecyclerViewAdapter(MainActivity.this, newsItemList);
+            mNewsViewAdapter = new NewsRecyclerViewAdapter(MainActivity.this, JsonUtils.parseNews(newsSearchResults));
             mResultsRecyclerView.setAdapter(mNewsViewAdapter);
         }
     }
