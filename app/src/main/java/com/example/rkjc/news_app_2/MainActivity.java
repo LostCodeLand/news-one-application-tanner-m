@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mResultsRecyclerView = (RecyclerView) findViewById(R.id.rv_listItems);
+        mResultsRecyclerView = (RecyclerView) findViewById(R.id.news_recyclerview);
         mResultsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         int itemThatWasClickedId = item.getItemId();
 
         if(itemThatWasClickedId == R.id.action_search){
-            Context context = MainActivity.this;
             NewsQueryTask task = new NewsQueryTask();
             task.execute();
             return true;
